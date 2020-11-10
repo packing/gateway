@@ -74,7 +74,7 @@ func OnConnectAccepted(conn net.Conn) error {
     if ai != nil {
         if s, ok := conn.(*net.TCPConn); ok {
             if pf, err := s.File(); err == nil {
-                //utils.LogError(">>> 转移新连接句柄 %d", int(pf.Fd()))
+                utils.LogError(">>> 转移新连接句柄 %d => %s", int(pf.Fd()), ai.unixMsgAddr)
                 unixMsg.SendTo(ai.unixMsgAddr, int(pf.Fd()))
             }
         }

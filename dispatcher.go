@@ -29,9 +29,8 @@ func OnAdapters(msg *messages.Message) (error) {
                 m, ok := l.(codecs.IMMap)
                 if ok {
                     mr := codecs.CreateMapReader(m)
-                    iSessionId := mr.TryReadValue(messages.ProtocolKeySessionId)
-                    sessionId, ok := iSessionId.(uint)
-                    if ok {
+                    sessionId := mr.UintValueOf(messages.ProtocolKeySessionId, 0)
+                    if sessionId > 0 {
                         var ai AdapterInfo
                         ai.unixMsgAddr = mr.StrValueOf(messages.ProtocolKeyUnixMsgAddr, "")
                         ai.host = mr.StrValueOf(messages.ProtocolKeyHost, "")
@@ -55,9 +54,8 @@ func OnAdapterCome(msg *messages.Message) (error) {
     }
 
     mr := codecs.CreateMapReader(body)
-    iSessionId := mr.TryReadValue(messages.ProtocolKeySessionId)
-    sessionId, ok := iSessionId.(uint)
-    if ok {
+    sessionId := mr.UintValueOf(messages.ProtocolKeySessionId, 0)
+    if sessionId > 0 {
         var si AdapterInfo
         si.unixMsgAddr = mr.StrValueOf(messages.ProtocolKeyUnixMsgAddr, "")
         si.host = mr.StrValueOf(messages.ProtocolKeyHost, "")
@@ -79,9 +77,8 @@ func OnAdapterBye(msg *messages.Message) (error) {
     }
 
     mr := codecs.CreateMapReader(body)
-    iSessionId := mr.TryReadValue(messages.ProtocolKeySessionId)
-    sessionId, ok := iSessionId.(uint)
-    if ok {
+    sessionId := mr.UintValueOf(messages.ProtocolKeySessionId, 0)
+    if sessionId > 0 {
         delAdapter(nnet.SessionID(sessionId))
         utils.LogInfo("Adapter (%d) 离线", sessionId)
     }
@@ -96,9 +93,8 @@ func OnAdapterChange(msg *messages.Message) (error) {
     }
 
     mr := codecs.CreateMapReader(body)
-    iSessionId := mr.TryReadValue(messages.ProtocolKeySessionId)
-    sessionId, ok := iSessionId.(uint)
-    if ok {
+    sessionId := mr.UintValueOf(messages.ProtocolKeySessionId, 0)
+    if sessionId > 0 {
         var si AdapterInfo
         si.unixMsgAddr = mr.StrValueOf(messages.ProtocolKeyUnixMsgAddr, "")
         si.host = mr.StrValueOf(messages.ProtocolKeyHost, "")
