@@ -1,17 +1,17 @@
 package main
 
 import (
-    "github.com/packing/nbpy/codecs"
-    "github.com/packing/nbpy/messages"
-    "github.com/packing/nbpy/nnet"
-    "github.com/packing/nbpy/utils"
+    "github.com/packing/clove/codecs"
+    "github.com/packing/clove/messages"
+    "github.com/packing/clove/nnet"
+    "github.com/packing/clove/utils"
 )
 
 type GatewayMessageObject struct {
 }
 
 
-func OnAdapters(msg *messages.Message) (error) {
+func OnAdapters(msg *messages.Message) error {
     body := msg.GetBody()
     if body == nil {
         return nil
@@ -47,7 +47,7 @@ func OnAdapters(msg *messages.Message) (error) {
 }
 
 
-func OnAdapterCome(msg *messages.Message) (error) {
+func OnAdapterCome(msg *messages.Message) error {
     body := msg.GetBody()
     if body == nil {
         return nil
@@ -70,7 +70,7 @@ func OnAdapterCome(msg *messages.Message) (error) {
     return nil
 }
 
-func OnAdapterBye(msg *messages.Message) (error) {
+func OnAdapterBye(msg *messages.Message) error {
     body := msg.GetBody()
     if body == nil {
         return nil
@@ -86,7 +86,7 @@ func OnAdapterBye(msg *messages.Message) (error) {
     return nil
 }
 
-func OnAdapterChange(msg *messages.Message) (error) {
+func OnAdapterChange(msg *messages.Message) error {
     body := msg.GetBody()
     if body == nil {
         return nil
@@ -108,7 +108,7 @@ func OnAdapterChange(msg *messages.Message) (error) {
     return nil
 }
 
-func (receiver GatewayMessageObject) GetMappedTypes() (map[int]messages.MessageProcFunc) {
+func (receiver GatewayMessageObject) GetMappedTypes() map[int]messages.MessageProcFunc {
     msgMap := make(map[int]messages.MessageProcFunc)
 
     msgMap[messages.ProtocolTypeAdapters] = OnAdapters

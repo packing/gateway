@@ -5,26 +5,24 @@ import (
     "fmt"
     "log"
     "net"
-
-    "github.com/packing/nbpy/codecs"
-    "github.com/packing/nbpy/env"
-    "github.com/packing/nbpy/messages"
-    "github.com/packing/nbpy/nnet"
-    "github.com/packing/nbpy/packets"
-    "github.com/packing/nbpy/utils"
-
     "os"
     "runtime"
     "runtime/pprof"
     "syscall"
+
+    "github.com/packing/clove/codecs"
+    "github.com/packing/clove/env"
+    "github.com/packing/clove/messages"
+    "github.com/packing/clove/nnet"
+    "github.com/packing/clove/packets"
+    "github.com/packing/clove/utils"
 )
 
 var (
     help    bool
     version bool
 
-    daemon   bool
-    setsided bool
+    daemon bool
 
     pprofFile  string
     addr       string
@@ -88,7 +86,6 @@ func main() {
     flag.BoolVar(&help, "h", false, "this help")
     flag.BoolVar(&version, "v", false, "print version")
     flag.BoolVar(&daemon, "d", false, "run at daemon")
-    flag.BoolVar(&setsided, "s", false, "already run at daemon")
     flag.StringVar(&addr, "a", "0.0.0.0:10086", "listen addr")
     flag.StringVar(&addrMaster, "c", "127.0.0.1:10088", "controller addr")
     flag.StringVar(&pprofFile, "f", "", "pprof file")
@@ -108,7 +105,7 @@ func main() {
     if !daemon {
         logDir = ""
     } else {
-        if !setsided {
+        if os.Getppid() != 1 {
             utils.Daemon()
             return
         }
